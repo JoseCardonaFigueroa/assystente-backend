@@ -16,12 +16,6 @@ class CreatePhonesTable extends Migration
         Schema::create('phones', function (Blueprint $table) {
             $table->increments('id');
             $table->string('p-number');
-            $table->integer('person_id')
-                  ->unsigned();
-            $table->foreign('person_id')
-                  ->references('id')
-                  ->on('people')
-                  ->onDelete('cascade');
             $table->timestamps();
             $table->softdeletes();
         });
