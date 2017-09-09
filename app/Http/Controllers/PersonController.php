@@ -27,6 +27,20 @@ class PersonController extends Controller
 
   public function store(Request $request)
   {
+    $this->validate($request, [
+      'persons.*.name' => 'string|required',
+      'persons.*.name2' => 'string',
+      'persons.*.last-name' => 'string|required',
+      'persons.*.second-last-name' => 'string',
+      'persons.*.gender' => 'string|max:1|required|min:1',
+      'persons.*.curp' => 'string|max:18|min:18',
+      'persons.*.marital-status' => 'string',
+      'persons.*.profession' => 'string',
+      'persons.*.birthdate' => 'date|required',
+      'persons.*.address' => 'string',
+      'persons.*.phone' => 'string',
+      'persons.*.referred-by' => 'string'
+    ]);
       return Person::create($request->all());
   }
 
