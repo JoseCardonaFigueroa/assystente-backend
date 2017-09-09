@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePhonesTable extends Migration
+class CreateHistoricalsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,19 @@ class CreatePhonesTable extends Migration
      */
     public function up()
     {
-        Schema::create('phones', function (Blueprint $table) {
+        Schema::create('historicals', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('p-number');
-            $table->integer('person_id')
-                  ->unsigned();
-            $table->foreign('person_id')
-                  ->references('id')
-                  ->on('people')
-                  ->onDelete('cascade');
             $table->timestamps();
             $table->softdeletes();
+            $table->longText('description');
+            $table->integer('appointment_id')
+                  ->unsigned();
+            $table->foreign('appointment_id')
+                  ->references('id')
+                  ->on('appointments')
+                  ->onDelete('cascade');
+
+            
         });
     }
 
@@ -34,6 +36,6 @@ class CreatePhonesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('phones');
+        Schema::dropIfExists('historicals');
     }
 }

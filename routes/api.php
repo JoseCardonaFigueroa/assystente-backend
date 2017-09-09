@@ -28,3 +28,9 @@ Route::get('addresses/{id}', 'AddressController@show');
 Route::post('addresses', 'AddressController@store');
 Route::put('addresses/{id}', 'AddressController@update');
 Route::delete('addresses/{id}', 'AddressController@delete');
+
+Route::get('phones', 'PhoneController@index');
+Route::get('phones/{id}', 'PhoneController@show');
+Route::post('phones', 'PhoneController@store');
+Route::put('phones/{id}', 'PhoneController@update');
+Route::delete('phones/{id}', 'PhoneController@delete');

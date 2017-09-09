@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePhonesTable extends Migration
+class CreateDiseasesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,11 @@ class CreatePhonesTable extends Migration
      */
     public function up()
     {
-        Schema::create('phones', function (Blueprint $table) {
+        Schema::create('diseases', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('p-number');
-            $table->integer('person_id')
-                  ->unsigned();
-            $table->foreign('person_id')
-                  ->references('id')
-                  ->on('people')
-                  ->onDelete('cascade');
             $table->timestamps();
             $table->softdeletes();
+            $table->string('disease-name');
         });
     }
 
@@ -34,6 +28,6 @@ class CreatePhonesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('phones');
+        Schema::dropIfExists('diseases');
     }
 }
