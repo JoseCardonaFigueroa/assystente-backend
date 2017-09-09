@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Phone;
+use App\Disease;
 
-class PhoneTableSeeder extends Seeder
+class DiseaseTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,8 +16,8 @@ class PhoneTableSeeder extends Seeder
         $faker = \Faker\Factory::create();
 
         for ($i = 0; $i < 50; $i++) {
-           PHone::create([
-               'p-number' => $faker->phoneNumber(),
+           Disease::create([
+               'disease-name' => 'cancer' . $i,
            ]);
        }
     }

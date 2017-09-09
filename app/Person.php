@@ -12,4 +12,8 @@ class Person extends Model
 
     protected $dates = ['deleted_at'];
 
+    public function appointments()
+    {
+        return $this->hasMany('App\Appointment');
+    }
 }

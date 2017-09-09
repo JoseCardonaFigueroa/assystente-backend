@@ -34,3 +34,6 @@ Route::get('phones/{id}', 'PhoneController@show');
 Route::post('phones', 'PhoneController@store');
 Route::put('phones/{id}', 'PhoneController@update');
 Route::delete('phones/{id}', 'PhoneController@delete');
+
+Route::get('patients', 'PatientManagementController@index');
+Route::get('patients/{id}', 'PatientManagementController@index');

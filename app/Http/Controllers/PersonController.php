@@ -9,12 +9,20 @@ class PersonController extends Controller
 {
   public function index()
   {
-      return Person::all();
+      $response['persons'] = Person::all();
+      $tempArr = [];
+      foreach ($response['persons'] as $k => $p) {
+        $response['persons'][$k]['appointments'] = $p->appointments;
+      }
+
+      return response()->json($response);
   }
 
   public function show($id)
   {
-      return Person::findOrFail($id)->toJson();
+    $response['person'] = Person::findOrFail($id);
+    $response['person']['appointments'] = $response['person']->appointments;
+    return response()->json($response);
   }
 
   public function store(Request $request)

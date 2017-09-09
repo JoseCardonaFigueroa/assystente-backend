@@ -18,6 +18,8 @@ class CreateAppointmentsTable extends Migration
             $table->timestamps();
             $table->datetime('appointment-date');
             $table->string('observations');
+            $table->string('phone');
+            $table->SoftDeletes();
 
             $table->integer('person_id')
                   ->unsigned();
@@ -31,13 +33,6 @@ class CreateAppointmentsTable extends Migration
             $table->foreign('disease_id')
                   ->references('id')
                   ->on('diseases')
-                  ->onDelete('cascade');
-
-            $table->integer('phone_id')
-                  ->unsigned();
-            $table->foreign('phone_Id')
-                  ->references('id')
-                  ->on('phones')
                   ->onDelete('cascade');
 
             $table->integer('address_id')
