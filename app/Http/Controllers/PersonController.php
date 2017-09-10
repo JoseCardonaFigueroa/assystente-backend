@@ -41,7 +41,7 @@ class PersonController extends Controller
       'persons.*.phone' => 'string',
       'persons.*.referred-by' => 'string'
     ]);
-      return Person::create($request->all());
+      return response()->json(Person::create($request->all()));
   }
 
   public function update(Request $request, $id)
