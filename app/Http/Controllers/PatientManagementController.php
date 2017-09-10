@@ -9,6 +9,7 @@ use App\Person;
 class PatientManagementController extends Controller
 {
     //
+
     public function index()
     {
         // $response['appointments'] = Appointment::limit(2)->get();
@@ -37,19 +38,22 @@ class PatientManagementController extends Controller
     public function store(Request $request)
     {
       // var_dump($request->all());exit;
+      // $messages = [
+      //   '*.name.required' => 'Por favor introduce el nombre del paciente.'
+      // ];
       $validator = \Validator::make($request->all(), [
-        'persons.*.name' => 'string|required',
-        'persons.*.name2' => 'string',
-        'persons.*.last-name' => 'string|required',
-        'persons.*.second-last-name' => 'string',
-        'persons.*.gender' => 'string|max:1|required|min:1',
-        'persons.*.curp' => 'string|max:18|min:18',
-        'persons.*.marital-status' => 'string',
-        'persons.*.profession' => 'string',
+        'persons.*.name' => 'alpha|required',
+        'persons.*.name2' => 'alpha|nullable',
+        'persons.*.last-name' => 'alpha|required',
+        'persons.*.second-last-name' => 'alpha|nullable',
+        'persons.*.gender' => 'alpha|max:1|required|min:1',
+        'persons.*.curp' => 'alpha_num|max:18|min:18|nullable',
+        'persons.*.marital-status' => 'alpha|nullable',
+        'persons.*.profession' => 'alpha|nullable',
         'persons.*.birthdate' => 'date|required',
-        'persons.*.address' => 'string',
-        'persons.*.phone' => 'string',
-        'persons.*.referred-by' => 'string'
+        'persons.*.address' => 'string|nullable',
+        'persons.*.phone' => 'string|nullable',
+        'persons.*.referred-by' => 'alpha|nullable'
       ]);
 
       if ($errors = $validator->errors()) {
