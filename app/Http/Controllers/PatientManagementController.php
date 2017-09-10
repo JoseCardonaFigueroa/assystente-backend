@@ -37,10 +37,6 @@ class PatientManagementController extends Controller
 
     public function store(Request $request)
     {
-      // var_dump($request->all());exit;
-      // $messages = [
-      //   '*.name.required' => 'Por favor introduce el nombre del paciente.'
-      // ];
       $validator = \Validator::make($request->all(), [
         'persons.*.name' => 'alpha|required',
         'persons.*.name2' => 'alpha|nullable',
@@ -49,21 +45,35 @@ class PatientManagementController extends Controller
         'persons.*.gender' => 'alpha|max:1|required|min:1',
         'persons.*.curp' => 'alpha_num|max:18|min:18|nullable',
         'persons.*.marital-status' => 'alpha|nullable',
-        'persons.*.profession' => 'alpha|nullable',
+        'persons.*.profession' => 'string|nullable',
         'persons.*.birthdate' => 'date|required',
         'persons.*.address' => 'string|nullable',
         'persons.*.phone' => 'string|nullable',
-        'persons.*.referred-by' => 'alpha|nullable'
+        'persons.*.title' => 'alpha|nullable',
+        'persons.*.referred-by' => 'alpha|nullable',
+        
       ]);
 
-      if ($errors = $validator->errors()) {
+      if (count($errors = $validator->errors())) {
         return \Response::json([
-            'messages' => $errors
-          ],400);
+          'messages' => $errors
+        ],400);
       }
 
+      $persons = [];
 
-      // var_dump($request); exit;
-        return response()->json($request->all());
+      try {
+        foreach ($request->all()['persons'] as $r) {
+          $p = new Person($r);
+          $p->save();
+          $persons [] = $p;
+        }
+      } catch (Exception $e) {
+        return \Response::json([
+          'messages' => 'Algo salió mal al momento de insertar los datos'
+        ], 400);
+      }
+
+      return response()->json($persons);
     }
 }

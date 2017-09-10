@@ -17,15 +17,17 @@ class CreatePeopleTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->string('name');
-            $table->string('name2');
+            $table->string('name2')->nullable();
             $table->string('last-name');
-            $table->string('second-last-name');
+            $table->string('second-last-name')->nullable();
             $table->string('gender',1);
             $table->date('birthdate');
             $table->string('title', 5);
-            $table->string('curp');
+            $table->string('curp')->nullable();
             $table->string('marital-status');
             $table->string('profession');
+            $table->text('address')->nullable();
+            $table->string('phone')->nullable();
             $table->softdeletes();
         });
     }

@@ -12,6 +12,12 @@ class Person extends Model
 
     protected $dates = ['deleted_at'];
 
+    protected $fillable = [
+      'name','name2','last-name','second-last-name',
+      'gender', 'curp','marital-status','profession',
+      'birthdate','address','phone','marital-status','title'
+    ];
+
     public function appointments()
     {
         return $this->hasMany('App\Appointment');
