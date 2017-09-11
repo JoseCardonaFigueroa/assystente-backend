@@ -18,7 +18,6 @@ class CreateAppointmentsTable extends Migration
             $table->timestamps();
             $table->datetime('appointment-date');
             $table->string('observations');
-            $table->string('phone');
             $table->SoftDeletes();
 
             $table->integer('person_id')
@@ -35,12 +34,6 @@ class CreateAppointmentsTable extends Migration
                   ->on('diseases')
                   ->onDelete('cascade');
 
-            $table->integer('address_id')
-                  ->unsigned();
-            $table->foreign('address_Id')
-                  ->references('id')
-                  ->on('addresses')
-                  ->onDelete('cascade');
         });
     }
 

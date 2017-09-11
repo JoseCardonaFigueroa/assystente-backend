@@ -22,7 +22,7 @@ class CreatePeopleTable extends Migration
             $table->string('second-last-name')->nullable();
             $table->string('gender',1);
             $table->date('birthdate');
-            $table->string('title', 5);
+            $table->string('title', 5)->nullable();
             $table->string('curp')->nullable();
             $table->string('marital-status');
             $table->string('profession');

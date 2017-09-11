@@ -10,6 +10,10 @@ class Appointment extends Model
     //
     use SoftDeletes;
 
+    protected $fillable = [
+      'appointment-date', 'observations', 'person_id', 'disease_id'
+    ];
+
     public function person()
     {
         return $this->belongsTo('App\Person');

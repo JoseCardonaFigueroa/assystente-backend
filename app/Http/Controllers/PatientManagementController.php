@@ -24,15 +24,20 @@ class PatientManagementController extends Controller
         return response()->json($response);
     }
 
-    public function get($id)
+    public function show($id)
     {
       $response['appointments'] = Appointment::findOrFail($id);
 
-      $response['appointments'][$k]['person'] = $a->person;
-      // $response['appointments'][$k]['phone'] = $a->phone;
-      $response['appointments'][$k]['disease'] = $a->disease;
+      $response['appointments']['person'] = $response['appointments']->person;
+      // $response['appointments'][$k]['phone'] = $response['appointments']->phone;
+      $response['appointments']['disease'] = $response['appointments']->disease;
 
-      return response()->json($response);
+      return response()->json(
+        ['messages' => [
+          'Los datos fueron extraídos de manera correcta',
+        ],
+        'data'=> $response,]
+      );
     }
 
     public function store(Request $request)
@@ -51,29 +56,86 @@ class PatientManagementController extends Controller
         'persons.*.phone' => 'string|nullable',
         'persons.*.title' => 'alpha|nullable',
         'persons.*.referred-by' => 'alpha|nullable',
-        
+        'persons.*.appointments.*.appointment-date' => 'date|required',
+        'persons.*.appointments.*.observations' => 'string|nullable',
+        'persons.*.appointments.*.disease_id' => 'numeric|required',
       ]);
 
-      if (count($errors = $validator->errors())) {
+      // var_dump($request->all()); exit;
+      $requestArr = $request->all();
+      if(count($requestArr) == 0 || !array_key_exists('persons', $requestArr)){
         return \Response::json([
-          'messages' => $errors
+          'messages' => ['Por favor introduzca los datos de la cita y la persona.'],
+          'data' => [],
         ],400);
       }
 
-      $persons = [];
-
-      try {
-        foreach ($request->all()['persons'] as $r) {
-          $p = new Person($r);
-          $p->save();
-          $persons [] = $p;
-        }
-      } catch (Exception $e) {
+      if (count($errors = $validator->errors())) {
         return \Response::json([
-          'messages' => 'Algo salió mal al momento de insertar los datos'
-        ], 400);
+          'messages' => $errors,
+          'data' => [],
+        ],400);
       }
 
-      return response()->json($persons);
+      $data = [];
+      $data['persons'] = [];
+
+      try {
+        foreach ($requestArr['persons'] as $k => $r) {
+          $p = new Person($r);
+          $p->save();
+          // var_dump($p);exit;
+
+          $data ['persons'][$k] = $p;
+
+          foreach ($r['appointments'] as $aRequest) {
+            $a = new Appointment($aRequest);
+            $a->person_id = $p->id;
+            $a->save();
+            $data ['persons'][$k]['appointments'][] = $a;
+          }
+        }
+
+      } catch (Exception $e) {
+        return \Response::json([
+          'messages' => ['Algo salió mal al momento de insertar los datos'],
+          'data' => [],
+        ], 500);
+      }
+
+      return response()->json([
+        'messages' => 'El paciente y la cita fueron creados correctamente.',
+        'data' => $data
+       ]);
+    }
+
+    public function destroy($id)
+    {
+
+      try {
+
+        $deletedAppointment = Appointment::onlyTrashed()->where('id', $id)->get();
+        if($deletedAppointment->count() > 0){
+          return \Response::json([
+            'messages' => ['La cita ya había sido eliminada'],
+            'data' => [],
+          ], 404);
+        }
+
+        Appointment::destroy([$id]);
+        $deletedAppointment = Appointment::onlyTrashed()->where('id', $id)->get();
+        // $deletedAppointments = Appointment::onlyTrashed()->where('id', $id)->get();
+          return \Response::json([
+            'messages' => ['La cita se eliminó correctamente'],
+            'data' => ['appointments' => $deletedAppointment],
+          ]);
+
+      } catch (Exception $e) {
+        return \Response::json([
+          'messages' => ['Algo salió mal al momento de eliminar los datos'],
+          'data' => [],
+        ], 500);
+      }
+
     }
 }
