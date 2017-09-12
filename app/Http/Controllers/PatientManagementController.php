@@ -13,6 +13,14 @@ class PatientManagementController extends Controller
     public function index()
     {
         // $response['appointments'] = Appointment::limit(2)->get();
+        // $response['appointments'] = Appointment::all();
+        if (!Appointment::all()->first()){
+          return \Response::json([
+            'messages' => ['Aún no hay ninguna cita agendada.'],
+            'data' => []
+          ]);
+        }
+
         $response['appointments'] = Appointment::all();
 
         foreach ($response['appointments'] as $k => $a) {
@@ -21,7 +29,10 @@ class PatientManagementController extends Controller
           $response['appointments'][$k]['disease'] = $a->disease;
         }
 
-        return response()->json($response);
+        return response()->json([
+          'messages' => ['Los datos fueron extraídos de manera correcta.'],
+          'data' => $response,
+        ]);
     }
 
     public function show($id)
