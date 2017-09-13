@@ -23,6 +23,7 @@ class PatientManagementController extends Controller
 
         $response['appointments'] = Appointment::all();
 
+
         foreach ($response['appointments'] as $k => $a) {
           $response['appointments'][$k]['person'] = $a->person;
           // $response['appointments'][$k]['phone'] = $a->phone;
