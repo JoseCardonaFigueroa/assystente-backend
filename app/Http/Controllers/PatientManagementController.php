@@ -54,15 +54,15 @@ class PatientManagementController extends Controller
     public function store(Request $request)
     {
       $validator = \Validator::make($request->all(), [
-        'persons.*.name' => 'alpha|required',
+        'persons.*.name' => 'alpha|nullable',
         'persons.*.name2' => 'alpha|nullable',
-        'persons.*.last-name' => 'alpha|required',
+        'persons.*.last-name' => 'alpha|nullable',
         'persons.*.second-last-name' => 'alpha|nullable',
-        'persons.*.gender' => 'alpha|max:1|required|min:1',
+        'persons.*.gender' => 'alpha|max:1|nullable|min:1',
         'persons.*.curp' => 'alpha_num|max:18|min:18|nullable',
         'persons.*.marital-status' => 'alpha|nullable',
         'persons.*.profession' => 'string|nullable',
-        'persons.*.birthdate' => 'date|required',
+        'persons.*.birthdate' => 'date|nullable',
         'persons.*.address' => 'string|nullable',
         'persons.*.phone' => 'string|nullable',
         'persons.*.title' => 'alpha|nullable',
