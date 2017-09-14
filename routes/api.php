@@ -20,3 +20,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::resource('persons', 'PersonController');
 
 Route::resource('patients', 'PatientManagementController');
+
+Route::resource('historical', 'AppointmentReportController');
