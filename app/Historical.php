@@ -10,8 +10,8 @@ class Historical extends Model
     //
     use SoftDeletes;
 
-    public function appointment()
+    public function person()
     {
-      return $this->hasOne('App\Appointment');
+      return $this->belongsTo('App\Person');
     }
 }

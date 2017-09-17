@@ -19,10 +19,8 @@ class AppointmentReportController extends Controller
       $data = [];
       // var_dump($historicals); exit;
       foreach ($historicals as $k => $h ) {
-        $data ['historicals'][] = $h;
-        // var_dump($data); exit;
-        $data['historicals'][$k]['appointment'] = $h->appointment();
-        // var_dump($data); exit;
+        $data ['historicals'][$k] = $h;
+        $data['historicals'][$k]['person'] = $h->person();
       }
 
       return response()->json([

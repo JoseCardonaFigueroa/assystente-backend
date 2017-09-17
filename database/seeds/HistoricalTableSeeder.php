@@ -18,7 +18,7 @@ class HistoricalTableSeeder extends Seeder
         for ($i = 0; $i < 5; $i++) {
            Historical::create([
                'description' => 'cancer' . $i,
-               'appointment_id' => rand(1,5),
+               'person_id' => rand(1,50),
            ]);
        }
     }

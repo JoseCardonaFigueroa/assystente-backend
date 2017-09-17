@@ -18,14 +18,13 @@ class CreateHistoricalsTable extends Migration
             $table->timestamps();
             $table->softdeletes();
             $table->longText('description');
-            $table->integer('appointment_id')
-                  ->unsigned();
-            $table->foreign('appointment_id')
-                  ->references('id')
-                  ->on('appointments')
-                  ->onDelete('cascade');
 
-            
+            $table->integer('person_id')
+                  ->unsigned();
+            $table->foreign('person_id')
+                  ->references('id')
+                  ->on('people')
+                  ->onDelete('cascade');
         });
     }
 
